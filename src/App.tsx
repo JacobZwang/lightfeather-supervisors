@@ -4,12 +4,10 @@ import SupervisorRow from './components/SupervisorRow';
 import { SupervisorState } from './types';
 
 function App() {
-	const allSupervisors = useSelector(
-		(state: { supervisors: SupervisorState[] }) => state.supervisors
-	);
+	const supervisors = useSelector((state: { supervisors: SupervisorState[] }) => state.supervisors);
 
 	return (
-		<form>
+		<form onSubmit={(e) => e.preventDefault()}>
 			<div>
 				<div>
 					<h2>Your Information</h2>
@@ -53,12 +51,22 @@ function App() {
 			<div>
 				<h1>Supervisors You're Watching</h1>
 
-				<p style={{ maxWidth: '30rem' }}>
-					You aren't watching any supervisors yet. Enable email or phone notifications for a
-					supervisor below to watch them.
-				</p>
-
-				<table></table>
+				{supervisors.filter((s) => s.isWatching).length ? (
+					<table>
+						<tbody>
+							{supervisors
+								.filter((s) => s.isWatching)
+								.map((supervisor) => (
+									<SupervisorRow supervisor={supervisor} />
+								))}
+						</tbody>
+					</table>
+				) : (
+					<p style={{ maxWidth: '30rem' }}>
+						You aren't watching any supervisors yet. Enable email or phone notifications for a
+						supervisor below to watch them.
+					</p>
+				)}
 
 				<h1>All Supervisors</h1>
 
@@ -73,10 +81,10 @@ function App() {
 						</td>
 					</tr> */}
 
-						{allSupervisors.length ? (
-							allSupervisors.map((supervisor) => (
-								<SupervisorRow key={supervisor.id} supervisor={supervisor} />
-							))
+						{supervisors.length ? (
+							supervisors
+								.filter((s) => !s.isWatching)
+								.map((supervisor) => <SupervisorRow key={supervisor.id} supervisor={supervisor} />)
 						) : (
 							<p
 								style={{

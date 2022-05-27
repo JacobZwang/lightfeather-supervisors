@@ -10,9 +10,27 @@ export const supervisorsSlice = createSlice({
 			state,
 			action: PayloadAction<{ supervisorId: string; notifType: 'email' | 'phone'; value: boolean }>
 		) => {
-			return state.forEach((s) => {
-				if (s.id === action.payload.supervisorId) s.emailNotifsEnabled = action.payload.value;
+			state.forEach((s) => {
+				if (s.id === action.payload.supervisorId) {
+					if (action.payload.notifType === 'email') {
+						s.emailNotifsEnabled = action.payload.value;
+					} else if (action.payload.notifType === 'phone') {
+						s.phoneNotifsEnabled = action.payload.value;
+					}
+
+					s.changed = true;
+				}
 			});
+		},
+		recalculateWatching: (state, action: PayloadAction<string>) => {
+			const notif = state.find((s) => s.id === action.payload)!;
+
+			if (notif.emailNotifsEnabled || notif.phoneNotifsEnabled) {
+				notif.isWatching = true;
+			} else {
+				notif.isWatching = false;
+			}
+			notif.changed = false;
 		}
 	}
 });
@@ -23,4 +41,4 @@ export default configureStore({
 	}
 });
 
-export const { updateSupervisorNotif } = supervisorsSlice.actions;
+export const { updateSupervisorNotif, recalculateWatching } = supervisorsSlice.actions;

@@ -16,4 +16,6 @@ export interface SupervisorState {
 	lastName: string;
 	phoneNotifsEnabled: boolean;
 	emailNotifsEnabled: boolean;
+	isWatching: boolean;
+	changed: boolean;
 }

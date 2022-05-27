@@ -1,4 +1,4 @@
-import { updateSupervisorNotif } from '../store';
+import { recalculateWatching, updateSupervisorNotif } from '../store';
 import { SupervisorState } from '../types';
 import { useDispatch } from 'react-redux';
 
@@ -13,7 +13,11 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 				borderBottom: '1px solid #ccc'
 			}}
 		>
-			<td>
+			<td
+				style={{
+					width: '18rem'
+				}}
+			>
 				{supervisor.jurisdiction}, {supervisor.firstName} {supervisor.lastName}
 			</td>
 
@@ -58,8 +62,10 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 			<td style={{ width: '3rem' }}>
 				<button
 					style={{
-						visibility:
-							supervisor.phoneNotifsEnabled || supervisor.emailNotifsEnabled ? 'visible' : 'hidden'
+						visibility: supervisor.changed ? 'visible' : 'hidden'
+					}}
+					onClick={() => {
+						dispatch(recalculateWatching(supervisor.id));
 					}}
 				>
 					save
