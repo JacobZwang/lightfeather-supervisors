@@ -1,10 +1,11 @@
 import { setWatching, updateSupervisorNotif } from '../store';
-import { SupervisorState } from '../types';
-import { useDispatch } from 'react-redux';
+import { Info, SupervisorState } from '../types';
+import { useDispatch, useSelector } from 'react-redux';
 
 function SupervisorRow(props: { supervisor: SupervisorState }) {
 	let { supervisor } = props;
 	const dispatch = useDispatch();
+	const info = useSelector((state: { info: Info }) => state.info);
 
 	return (
 		<tr
@@ -22,10 +23,11 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 			</td>
 
 			<td>
-				<label>
+				<label style={{ color: info.email ? 'black' : 'grey' }}>
 					Email Notifications
 					<input
 						type="checkbox"
+						disabled={!info.email}
 						defaultChecked={supervisor.emailNotifsEnabled}
 						onChange={(e) =>
 							dispatch(
@@ -41,8 +43,8 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 			</td>
 
 			<td>
-				<label>
-					Phone Notifications{' '}
+				<label style={{ color: info.phone ? 'black' : 'grey' }}>
+					Phone Notifications
 					<input
 						onChange={(e) => {
 							dispatch(
@@ -53,6 +55,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 								})
 							);
 						}}
+						disabled={!info.phone}
 						type="checkbox"
 						defaultChecked={supervisor.phoneNotifsEnabled}
 					/>
