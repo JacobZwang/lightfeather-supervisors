@@ -22,7 +22,7 @@ export const supervisorsSlice = createSlice({
 				}
 			});
 		},
-		recalculateWatching: (state, action: PayloadAction<string>) => {
+		setWatching: (state, action: PayloadAction<string>) => {
 			const notif = state.find((s) => s.id === action.payload)!;
 
 			if (notif.emailNotifsEnabled || notif.phoneNotifsEnabled) {
@@ -41,4 +41,4 @@ export default configureStore({
 	}
 });
 
-export const { updateSupervisorNotif, recalculateWatching } = supervisorsSlice.actions;
+export const { updateSupervisorNotif, setWatching } = supervisorsSlice.actions;

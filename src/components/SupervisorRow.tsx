@@ -1,4 +1,4 @@
-import { recalculateWatching, updateSupervisorNotif } from '../store';
+import { setWatching, updateSupervisorNotif } from '../store';
 import { SupervisorState } from '../types';
 import { useDispatch } from 'react-redux';
 
@@ -65,7 +65,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 						visibility: supervisor.changed ? 'visible' : 'hidden'
 					}}
 					onClick={() => {
-						dispatch(recalculateWatching(supervisor.id));
+						dispatch(setWatching(supervisor.id));
 					}}
 				>
 					save
