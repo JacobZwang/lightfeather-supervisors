@@ -61,19 +61,6 @@ function App() {
 							onChange={(e) => dispatch(setPhone(e.target.value))}
 						/>
 					</label>
-
-					<br />
-
-					<div
-						style={{
-							textAlign: 'center'
-						}}
-					>
-						{/* <label>
-							Save Options
-							<input type="checkbox" checked></input>
-						</label> */}
-					</div>
 				</div>
 			</div>
 
@@ -103,15 +90,6 @@ function App() {
 
 				<table>
 					<tbody>
-						{/* <tr>
-						<td>
-						<label>
-						Search Supervisors
-						<input type="select" />
-						</label>
-						</td>
-					</tr> */}
-
 						{supervisors.length ? (
 							supervisors
 								.filter((s) => !s.isWatching)
