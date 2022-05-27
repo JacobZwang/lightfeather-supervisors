@@ -49,7 +49,7 @@ function App() {
 			</div>
 
 			<div>
-				<h1>Supervisors You're Watching</h1>
+				<h2>Supervisors You're Watching</h2>
 
 				{supervisors.filter((s) => s.isWatching).length ? (
 					<table>
@@ -68,7 +68,9 @@ function App() {
 					</p>
 				)}
 
-				<h1>All Supervisors</h1>
+				<br />
+
+				<h2>All Supervisors</h2>
 
 				<table>
 					<tbody>
