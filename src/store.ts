@@ -35,10 +35,36 @@ export const supervisorsSlice = createSlice({
 	}
 });
 
+export const infoSlice = createSlice({
+	name: 'info',
+	initialState: {
+		firstName: '',
+		lastName: '',
+		email: '',
+		phone: ''
+	},
+	reducers: {
+		setFirstName: (state, action) => {
+			state.firstName = action.payload;
+		},
+		setLastName: (state, action) => {
+			state.lastName = action.payload;
+		},
+		setEmail: (state, action) => {
+			state.email = action.payload;
+		},
+		setPhone: (state, action) => {
+			state.phone = action.payload;
+		}
+	}
+});
+
 export default configureStore({
 	reducer: {
-		supervisors: supervisorsSlice.reducer
+		supervisors: supervisorsSlice.reducer,
+		info: infoSlice.reducer
 	}
 });
 
 export const { updateSupervisorNotif, setWatching } = supervisorsSlice.actions;
+export const { setFirstName, setLastName, setEmail, setPhone } = infoSlice.actions;
