@@ -1,11 +1,10 @@
+import { updateSupervisorNotif } from '../store';
 import { SupervisorState } from '../types';
+import { useDispatch } from 'react-redux';
 
-function SupervisorRow(props: {
-	allSupervisors: SupervisorState[];
-	setAllSupervisors: React.Dispatch<React.SetStateAction<SupervisorState[]>>;
-	supervisor: SupervisorState;
-}) {
-	let { supervisor, allSupervisors, setAllSupervisors } = props;
+function SupervisorRow(props: { supervisor: SupervisorState }) {
+	let { supervisor } = props;
+	const dispatch = useDispatch();
 
 	return (
 		<tr
@@ -24,14 +23,15 @@ function SupervisorRow(props: {
 					<input
 						type="checkbox"
 						defaultChecked={supervisor.emailNotifsEnabled}
-						onChange={(e) => {
-							setAllSupervisors(
-								allSupervisors.map((s) => {
-									if (s.id === supervisor.id) s.emailNotifsEnabled = e.target.checked;
-									return s;
+						onChange={(e) =>
+							dispatch(
+								updateSupervisorNotif({
+									supervisorId: supervisor.id,
+									notifType: 'email',
+									value: e.target.checked
 								})
-							);
-						}}
+							)
+						}
 					/>
 				</label>
 			</td>
@@ -41,10 +41,11 @@ function SupervisorRow(props: {
 					Phone Notifications{' '}
 					<input
 						onChange={(e) => {
-							setAllSupervisors(
-								allSupervisors.map((s) => {
-									if (s.id === supervisor.id) s.phoneNotifsEnabled = e.target.checked;
-									return s;
+							dispatch(
+								updateSupervisorNotif({
+									supervisorId: supervisor.id,
+									notifType: 'phone',
+									value: e.target.checked
 								})
 							);
 						}}

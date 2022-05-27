@@ -1,15 +1,11 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import './App.css';
 import SupervisorRow from './components/SupervisorRow';
-import placeholder from './supervisor-placeholder-data';
+import { SupervisorState } from './types';
 
 function App() {
-	const [watchingSupervisors, setWatchingSupervisors] = useState(
-		placeholder.filter((s) => s.phoneNotifsEnabled || s.emailNotifsEnabled)
-	);
-
-	const [allSupervisors, setAllSupervisors] = useState(
-		placeholder.filter((s) => !s.phoneNotifsEnabled && !s.emailNotifsEnabled)
+	const allSupervisors = useSelector(
+		(state: { supervisors: SupervisorState[] }) => state.supervisors
 	);
 
 	return (
@@ -79,11 +75,7 @@ function App() {
 
 						{allSupervisors.length ? (
 							allSupervisors.map((supervisor) => (
-								<SupervisorRow
-									supervisor={supervisor}
-									allSupervisors={allSupervisors}
-									setAllSupervisors={setAllSupervisors}
-								/>
+								<SupervisorRow key={supervisor.id} supervisor={supervisor} />
 							))
 						) : (
 							<p
