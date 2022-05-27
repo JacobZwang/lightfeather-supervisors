@@ -399,6 +399,6 @@ const supervisors = [
 		firstName: 'Magdalena',
 		lastName: 'Lehner'
 	}
-];
+].map((s) => ({ ...s, phoneNotifsEnabled: false, emailNotifsEnabled: false }));
 
 export default supervisors;

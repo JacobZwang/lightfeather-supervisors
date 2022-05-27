@@ -1,7 +1,17 @@
+import { useState } from 'react';
 import './App.css';
-import supervisors from './supervisor-placeholder-data';
+import SupervisorRow from './components/SupervisorRow';
+import placeholder from './supervisor-placeholder-data';
 
 function App() {
+	const [watchingSupervisors, setWatchingSupervisors] = useState(
+		placeholder.filter((s) => s.phoneNotifsEnabled || s.emailNotifsEnabled)
+	);
+
+	const [allSupervisors, setAllSupervisors] = useState(
+		placeholder.filter((s) => !s.phoneNotifsEnabled && !s.emailNotifsEnabled)
+	);
+
 	return (
 		<form>
 			<div>
@@ -17,7 +27,7 @@ function App() {
 						<input required type="text" name="Last Name" placeholder="Zwang" />
 					</label>
 
-					<h2>Notifications</h2>
+					<h2>Notification Options</h2>
 
 					<label>
 						Email
@@ -36,10 +46,10 @@ function App() {
 							textAlign: 'center'
 						}}
 					>
-						<label>
+						{/* <label>
 							Save Options
 							<input type="checkbox" checked></input>
-						</label>
+						</label> */}
 					</div>
 				</div>
 			</div>
@@ -47,48 +57,44 @@ function App() {
 			<div>
 				<h1>Supervisors You're Watching</h1>
 
+				<p style={{ maxWidth: '30rem' }}>
+					You aren't watching any supervisors yet. Enable email or phone notifications for a
+					supervisor below to watch them.
+				</p>
+
+				<table></table>
+
+				<h1>All Supervisors</h1>
+
 				<table>
-					{/* <tr>
+					<tbody>
+						{/* <tr>
 						<td>
-							<label>
-								Search Supervisors
-								<input type="select" />
-							</label>
+						<label>
+						Search Supervisors
+						<input type="select" />
+						</label>
 						</td>
 					</tr> */}
 
-					<p>You Aren't Watching Any Supervisors Yet</p>
-
-					<br />
-					<br />
-
-					<h1>All Supervisors</h1>
-
-					{supervisors.length ? (
-						supervisors.map((supervisor) => (
-							<tr
+						{allSupervisors.length ? (
+							allSupervisors.map((supervisor) => (
+								<SupervisorRow
+									supervisor={supervisor}
+									allSupervisors={allSupervisors}
+									setAllSupervisors={setAllSupervisors}
+								/>
+							))
+						) : (
+							<p
 								style={{
-									borderBottom: '1px solid #ccc'
+									padding: '1rem 0'
 								}}
 							>
-								<td>
-									{supervisor.jurisdiction}, {supervisor.firstName} {supervisor.lastName}
-								</td>
-								<td>
-									<label>
-										Email Notifications <input type="checkbox" />
-									</label>
-								</td>
-								<td>
-									<label>
-										Phone Notifications <input type="checkbox" />
-									</label>
-								</td>
-							</tr>
-						))
-					) : (
-						<p>No Supervisors Found</p>
-					)}
+								No Supervisors Found
+							</p>
+						)}
+					</tbody>
 				</table>
 			</div>
 		</form>
