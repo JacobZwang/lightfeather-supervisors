@@ -2,21 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import SupervisorRow from './components/SupervisorRow';
 import { setEmail, setFirstName, setLastName, setPhone } from './store';
-import { SupervisorState } from './types';
+import { Info, SupervisorState } from './types';
 
 function App() {
 	const supervisors = useSelector((state: { supervisors: SupervisorState[] }) => state.supervisors);
 	const dispatch = useDispatch();
-	const info = useSelector(
-		(state: {
-			info: {
-				firstName: string;
-				lastName: string;
-				email: string;
-				phone: string;
-			};
-		}) => state.info
-	);
+	const info = useSelector((state: { info: Info }) => state.info);
 
 	return (
 		<form onSubmit={(e) => e.preventDefault()}>

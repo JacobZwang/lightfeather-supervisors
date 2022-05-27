@@ -19,3 +19,10 @@ export interface SupervisorState {
 	isWatching: boolean;
 	changed: boolean;
 }
+
+export interface Info {
+	firstName: string;
+	lastName: string;
+	email: string;
+	phone: string;
+}
