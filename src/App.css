@@ -1,5 +1,5 @@
-form,
-form > div {
+form > div,
+form > div > div {
 	display: grid;
 	gap: 1rem;
 	width: 100%;
@@ -7,16 +7,24 @@ form > div {
 }
 
 form {
+	display: grid;
+	width: 100%;
 	grid-template-columns: 30rem 1fr;
 }
 
-form > div {
+form > div:nth-child(2) {
 	padding: 2rem;
 }
 
-form div:first-child {
+form > div:first-child {
 	background: rgb(240, 240, 240);
 	min-height: 100vh;
+}
+
+form > div:first-child > div {
+	position: sticky;
+	top: 0;
+	padding: 2rem;
 }
 
 input {
@@ -34,25 +42,43 @@ label > input {
 }
 
 /* Should be able to use `:has` by the end of 2022 */
-label.checkbox /*, label:has(> input[type='checkbox']) */ {
+/*, label:has(> input[type='checkbox']) */
+/* label.checkbox  {
 	display: inline-flex;
-}
+} */
 
 input[type='checkbox'] {
 	width: unset;
 	display: inline;
-	transform: translateY(-0.05rem);
+	transform: translateY(0.1rem);
 	margin-left: 1rem;
 }
 
 h2 {
 	font-size: 1.25rem;
-	margin-top: 1rem;
+	margin-top: 2rem;
 	color: gray;
+}
+
+h2:first-child {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 1.25rem;
 }
 
 hr {
 	border: none;
 	border-bottom: 2pt solid rgb(211, 211, 211);
 	width: 100%;
+}
+
+th {
+	text-align: left;
+}
+
+td,
+th {
+	padding: 0.5rem 0;
 }
