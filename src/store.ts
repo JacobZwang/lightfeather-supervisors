@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import supervisors from './supervisor-placeholder-data';
 
 export const supervisorsSlice = createSlice({
-	name: 'counter',
+	name: 'supervisors',
 	initialState: supervisors.filter((s) => !s.phoneNotifsEnabled && !s.emailNotifsEnabled),
 	reducers: {
 		updateSupervisorNotif: (
