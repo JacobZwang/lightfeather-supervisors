@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { setSupervisors, setWatching, updateSupervisorNotif } from '../store';
+import { setWatching, updateSupervisorNotif } from '../store';
 import { Info, SupervisorState } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -68,7 +68,27 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 						visibility: supervisor.changed ? 'visible' : 'hidden'
 					}}
 					onClick={() => {
-						dispatch(setWatching(supervisor.str));
+						fetch('http://localhost:8080/api/submit', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								firstName: info.firstName,
+								lastName: info.lastName,
+								email: supervisor.emailNotifsEnabled ? info.email : '',
+								phone: supervisor.phoneNotifsEnabled ? info.phone : '',
+								supervisor: supervisor.str
+							})
+						}).then((res) => {
+							if (res.status === 200) {
+								dispatch(setWatching(supervisor.str));
+							} else {
+								res.text().then((text) => {
+									alert(text);
+								});
+							}
+						});
 					}}
 				>
 					save
