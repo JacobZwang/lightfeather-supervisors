@@ -36,7 +36,15 @@ app.get('/api/supervisors', async (req, res) => {
 	res.end();
 });
 
-app.get('/api/submit', () => {});
+app.post('/api/submit', (req, res) => {
+	if (!req.body.firstName) res.status(401).write('First name is required\n');
+	if (!req.body.lastName) res.status(401).write('Last name is required\n');
+	if (!req.body.supervisor) res.status(406).write('Supervisor is required\n');
+
+	if (res.statusCode === 200) console.log(console.log(req.body));
+
+	res.end();
+});
 
 app.listen(8080, () => {
 	console.log('listending on 8080');
