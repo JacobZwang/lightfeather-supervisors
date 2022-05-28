@@ -16,6 +16,10 @@ esbuild
 		bundle: true,
 		platform: 'node',
 		format: 'cjs',
+		external: ['pg-native'],
+		loader: {
+			'.sql': 'text'
+		},
 		watch: args['watchbuild']
 			? {
 					onRebuild(error, result) {

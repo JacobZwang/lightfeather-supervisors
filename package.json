@@ -12,8 +12,10 @@
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.2.0",
 		"@testing-library/user-event": "^13.5.0",
+		"@types/cors": "^2.8.12",
 		"@types/jest": "^27.5.1",
 		"@types/node": "^17.0.35",
+		"@types/pg": "^8.6.5",
 		"@types/react": "^18.0.9",
 		"@types/react-dom": "^18.0.5",
 		"chalk": "^5.0.1",
@@ -22,6 +24,7 @@
 		"express": "^4.18.1",
 		"minimist": "^1.2.6",
 		"node-fetch": "^3.2.4",
+		"pg": "^8.7.3",
 		"react": "^18.1.0",
 		"react-dom": "^18.1.0",
 		"react-redux": "^8.0.2",
@@ -34,7 +37,7 @@
 		"build:frontend": "react-scripts build",
 		"test:frontend": "react-scripts test",
 		"eject:frontend": "react-scripts eject",
-		"start:server": "node esbuild.mjs --watchbuild --watchstart",
+		"start:server": "PGHOST=localhost PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres node esbuild.mjs --watchbuild --watchstart",
 		"build:server": "node esbuild.mjs"
 	},
 	"eslintConfig": {
@@ -54,8 +57,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"@types/cors": "^2.8.12"
 	}
 }
