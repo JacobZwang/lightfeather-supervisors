@@ -7,17 +7,15 @@ export interface Supervisor {
 	lastName: string;
 }
 
-export interface SupervisorState {
-	id: string;
-	phone: string;
-	jurisdiction: string;
-	identificationNumber: string;
-	firstName: string;
-	lastName: string;
+export interface SupervisorSummary {
+	str: string;
 	phoneNotifsEnabled: boolean;
 	emailNotifsEnabled: boolean;
-	isWatching: boolean;
+}
+
+export interface SupervisorState extends SupervisorSummary {
 	changed: boolean;
+	isWatching: boolean;
 }
 
 export interface Info {

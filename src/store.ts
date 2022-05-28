@@ -1,17 +1,24 @@
 import { configureStore, PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import supervisors from './supervisor-placeholder-data';
+import { SupervisorState, SupervisorSummary } from './types';
 
 export const supervisorsSlice = createSlice({
 	name: 'supervisors',
-	initialState: supervisors.filter((s) => !s.phoneNotifsEnabled && !s.emailNotifsEnabled),
+	initialState: [] as SupervisorState[],
 	reducers: {
+		setSupervisors: (state, action: PayloadAction<SupervisorSummary[]>) => {
+			return action.payload.map((s) => ({
+				...s,
+				changed: false,
+				isWatching: s.emailNotifsEnabled || s.phoneNotifsEnabled
+			}));
+		},
 		updateSupervisorNotif: (
 			state,
 			action: PayloadAction<{ supervisorId: string; notifType: 'email' | 'phone'; value: boolean }>
 		) => {
 			state.forEach((s) => {
-				if (s.id === action.payload.supervisorId) {
+				if (s.str === action.payload.supervisorId) {
 					if (action.payload.notifType === 'email') {
 						s.emailNotifsEnabled = action.payload.value;
 					} else if (action.payload.notifType === 'phone') {
@@ -23,7 +30,7 @@ export const supervisorsSlice = createSlice({
 			});
 		},
 		setWatching: (state, action: PayloadAction<string>) => {
-			const notif = state.find((s) => s.id === action.payload)!;
+			const notif = state.find((s) => s.str === action.payload)!;
 
 			if (notif.emailNotifsEnabled || notif.phoneNotifsEnabled) {
 				notif.isWatching = true;
@@ -66,5 +73,5 @@ export default configureStore({
 	}
 });
 
-export const { updateSupervisorNotif, setWatching } = supervisorsSlice.actions;
+export const { updateSupervisorNotif, setWatching, setSupervisors } = supervisorsSlice.actions;
 export const { setFirstName, setLastName, setEmail, setPhone } = infoSlice.actions;

@@ -1,13 +1,27 @@
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import SupervisorRow from './components/SupervisorRow';
-import { setEmail, setFirstName, setLastName, setPhone } from './store';
+import { setEmail, setFirstName, setLastName, setPhone, setSupervisors } from './store';
 import { Info, SupervisorState } from './types';
 
 function App() {
 	const supervisors = useSelector((state: { supervisors: SupervisorState[] }) => state.supervisors);
 	const dispatch = useDispatch();
 	const info = useSelector((state: { info: Info }) => state.info);
+
+	const didMount = useRef(false);
+
+	useEffect(() => {
+		fetch('http://localhost:8080/api/supervisors')
+			.then((res) => res.json())
+			.then((json) => {
+				if (!didMount.current) {
+					didMount.current = true;
+					dispatch(setSupervisors(json));
+				}
+			});
+	});
 
 	return (
 		<form onSubmit={(e) => e.preventDefault()}>
@@ -88,23 +102,25 @@ function App() {
 
 				<h2>All Supervisors</h2>
 
-				<table>
-					<tbody>
-						{supervisors.length ? (
-							supervisors
+				{supervisors.length ? (
+					<table>
+						<tbody>
+							{supervisors
 								.filter((s) => !s.isWatching)
-								.map((supervisor) => <SupervisorRow key={supervisor.id} supervisor={supervisor} />)
-						) : (
-							<p
-								style={{
-									padding: '1rem 0'
-								}}
-							>
-								No Supervisors Found
-							</p>
-						)}
-					</tbody>
-				</table>
+								.map((supervisor) => (
+									<SupervisorRow key={supervisor.str} supervisor={supervisor} />
+								))}
+						</tbody>
+					</table>
+				) : (
+					<p
+						style={{
+							padding: '1rem 0'
+						}}
+					>
+						No Supervisors Found
+					</p>
+				)}
 			</div>
 		</form>
 	);

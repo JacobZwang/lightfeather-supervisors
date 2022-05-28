@@ -2,9 +2,15 @@ import express from 'express';
 import path from 'path';
 import fetch from 'node-fetch';
 import { Supervisor } from './types';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(
+	cors({
+		origin: '*'
+	})
+);
 
 app.use(express.static(path.resolve(__dirname, '../build')));
 
@@ -20,9 +26,11 @@ app.get('/api/supervisors', async (req, res) => {
 
 	res.json(
 		supervisors
-			.map((s) => `${s.jurisdiction}-${s.lastName}-${s.firstName}`) // The format of the supervisors returned must be displayed in the following format:“<jurisdiction> - <lastName>, <firstName>”
+			.map((s) => ({
+				str: `${s.jurisdiction}-${s.lastName}-${s.firstName}`
+			})) // The format of the supervisors returned must be displayed in the following format:“<jurisdiction> - <lastName>, <firstName>”
 			.sort() // The supervisors must be sorted in alphabetical order, first by jurisdiction, then by last name, finally by first name.
-			.filter((s) => !s.match(/[0-9]/)) // Numeric jurisdictions should be removed from the response.
+			.filter((s) => !s.str.match(/[0-9]/)) // Numeric jurisdictions should be removed from the response.
 	);
 
 	res.end();

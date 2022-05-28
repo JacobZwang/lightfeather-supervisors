@@ -26060,6 +26060,284 @@ var init_multipart_parser = __esm({
   }
 });
 
+// node_modules/.pnpm/object-assign@4.1.1/node_modules/object-assign/index.js
+var require_object_assign = __commonJS({
+  "node_modules/.pnpm/object-assign@4.1.1/node_modules/object-assign/index.js"(exports, module2) {
+    "use strict";
+    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+    function toObject(val) {
+      if (val === null || val === void 0) {
+        throw new TypeError("Object.assign cannot be called with null or undefined");
+      }
+      return Object(val);
+    }
+    function shouldUseNative() {
+      try {
+        if (!Object.assign) {
+          return false;
+        }
+        var test1 = new String("abc");
+        test1[5] = "de";
+        if (Object.getOwnPropertyNames(test1)[0] === "5") {
+          return false;
+        }
+        var test2 = {};
+        for (var i2 = 0; i2 < 10; i2++) {
+          test2["_" + String.fromCharCode(i2)] = i2;
+        }
+        var order2 = Object.getOwnPropertyNames(test2).map(function(n) {
+          return test2[n];
+        });
+        if (order2.join("") !== "0123456789") {
+          return false;
+        }
+        var test3 = {};
+        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
+          test3[letter] = letter;
+        });
+        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") {
+          return false;
+        }
+        return true;
+      } catch (err) {
+        return false;
+      }
+    }
+    module2.exports = shouldUseNative() ? Object.assign : function(target, source) {
+      var from;
+      var to = toObject(target);
+      var symbols;
+      for (var s2 = 1; s2 < arguments.length; s2++) {
+        from = Object(arguments[s2]);
+        for (var key in from) {
+          if (hasOwnProperty.call(from, key)) {
+            to[key] = from[key];
+          }
+        }
+        if (getOwnPropertySymbols) {
+          symbols = getOwnPropertySymbols(from);
+          for (var i2 = 0; i2 < symbols.length; i2++) {
+            if (propIsEnumerable.call(from, symbols[i2])) {
+              to[symbols[i2]] = from[symbols[i2]];
+            }
+          }
+        }
+      }
+      return to;
+    };
+  }
+});
+
+// node_modules/.pnpm/cors@2.8.5/node_modules/cors/lib/index.js
+var require_lib3 = __commonJS({
+  "node_modules/.pnpm/cors@2.8.5/node_modules/cors/lib/index.js"(exports, module2) {
+    (function() {
+      "use strict";
+      var assign = require_object_assign();
+      var vary = require_vary();
+      var defaults = {
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+      };
+      function isString(s2) {
+        return typeof s2 === "string" || s2 instanceof String;
+      }
+      function isOriginAllowed(origin, allowedOrigin) {
+        if (Array.isArray(allowedOrigin)) {
+          for (var i2 = 0; i2 < allowedOrigin.length; ++i2) {
+            if (isOriginAllowed(origin, allowedOrigin[i2])) {
+              return true;
+            }
+          }
+          return false;
+        } else if (isString(allowedOrigin)) {
+          return origin === allowedOrigin;
+        } else if (allowedOrigin instanceof RegExp) {
+          return allowedOrigin.test(origin);
+        } else {
+          return !!allowedOrigin;
+        }
+      }
+      function configureOrigin(options, req) {
+        var requestOrigin = req.headers.origin, headers = [], isAllowed;
+        if (!options.origin || options.origin === "*") {
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: "*"
+          }]);
+        } else if (isString(options.origin)) {
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: options.origin
+          }]);
+          headers.push([{
+            key: "Vary",
+            value: "Origin"
+          }]);
+        } else {
+          isAllowed = isOriginAllowed(requestOrigin, options.origin);
+          headers.push([{
+            key: "Access-Control-Allow-Origin",
+            value: isAllowed ? requestOrigin : false
+          }]);
+          headers.push([{
+            key: "Vary",
+            value: "Origin"
+          }]);
+        }
+        return headers;
+      }
+      function configureMethods(options) {
+        var methods = options.methods;
+        if (methods.join) {
+          methods = options.methods.join(",");
+        }
+        return {
+          key: "Access-Control-Allow-Methods",
+          value: methods
+        };
+      }
+      function configureCredentials(options) {
+        if (options.credentials === true) {
+          return {
+            key: "Access-Control-Allow-Credentials",
+            value: "true"
+          };
+        }
+        return null;
+      }
+      function configureAllowedHeaders(options, req) {
+        var allowedHeaders = options.allowedHeaders || options.headers;
+        var headers = [];
+        if (!allowedHeaders) {
+          allowedHeaders = req.headers["access-control-request-headers"];
+          headers.push([{
+            key: "Vary",
+            value: "Access-Control-Request-Headers"
+          }]);
+        } else if (allowedHeaders.join) {
+          allowedHeaders = allowedHeaders.join(",");
+        }
+        if (allowedHeaders && allowedHeaders.length) {
+          headers.push([{
+            key: "Access-Control-Allow-Headers",
+            value: allowedHeaders
+          }]);
+        }
+        return headers;
+      }
+      function configureExposedHeaders(options) {
+        var headers = options.exposedHeaders;
+        if (!headers) {
+          return null;
+        } else if (headers.join) {
+          headers = headers.join(",");
+        }
+        if (headers && headers.length) {
+          return {
+            key: "Access-Control-Expose-Headers",
+            value: headers
+          };
+        }
+        return null;
+      }
+      function configureMaxAge(options) {
+        var maxAge = (typeof options.maxAge === "number" || options.maxAge) && options.maxAge.toString();
+        if (maxAge && maxAge.length) {
+          return {
+            key: "Access-Control-Max-Age",
+            value: maxAge
+          };
+        }
+        return null;
+      }
+      function applyHeaders(headers, res) {
+        for (var i2 = 0, n = headers.length; i2 < n; i2++) {
+          var header = headers[i2];
+          if (header) {
+            if (Array.isArray(header)) {
+              applyHeaders(header, res);
+            } else if (header.key === "Vary" && header.value) {
+              vary(res, header.value);
+            } else if (header.value) {
+              res.setHeader(header.key, header.value);
+            }
+          }
+        }
+      }
+      function cors2(options, req, res, next) {
+        var headers = [], method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+        if (method === "OPTIONS") {
+          headers.push(configureOrigin(options, req));
+          headers.push(configureCredentials(options, req));
+          headers.push(configureMethods(options, req));
+          headers.push(configureAllowedHeaders(options, req));
+          headers.push(configureMaxAge(options, req));
+          headers.push(configureExposedHeaders(options, req));
+          applyHeaders(headers, res);
+          if (options.preflightContinue) {
+            next();
+          } else {
+            res.statusCode = options.optionsSuccessStatus;
+            res.setHeader("Content-Length", "0");
+            res.end();
+          }
+        } else {
+          headers.push(configureOrigin(options, req));
+          headers.push(configureCredentials(options, req));
+          headers.push(configureExposedHeaders(options, req));
+          applyHeaders(headers, res);
+          next();
+        }
+      }
+      function middlewareWrapper(o) {
+        var optionsCallback = null;
+        if (typeof o === "function") {
+          optionsCallback = o;
+        } else {
+          optionsCallback = function(req, cb) {
+            cb(null, o);
+          };
+        }
+        return function corsMiddleware(req, res, next) {
+          optionsCallback(req, function(err, options) {
+            if (err) {
+              next(err);
+            } else {
+              var corsOptions = assign({}, defaults, options);
+              var originCallback = null;
+              if (corsOptions.origin && typeof corsOptions.origin === "function") {
+                originCallback = corsOptions.origin;
+              } else if (corsOptions.origin) {
+                originCallback = function(origin, cb) {
+                  cb(null, corsOptions.origin);
+                };
+              }
+              if (originCallback) {
+                originCallback(req.headers.origin, function(err2, origin) {
+                  if (err2 || !origin) {
+                    next(err2);
+                  } else {
+                    corsOptions.origin = origin;
+                    cors2(corsOptions, req, res, next);
+                  }
+                });
+              } else {
+                next();
+              }
+            }
+          });
+        };
+      }
+      module2.exports = middlewareWrapper;
+    })();
+  }
+});
+
 // src/server.ts
 var import_express = __toESM(require_express2(), 1);
 var import_path = __toESM(require("path"), 1);
@@ -27229,8 +27507,12 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 }
 
 // src/server.ts
+var import_cors = __toESM(require_lib3(), 1);
 var app = (0, import_express.default)();
 app.use(import_express.default.json());
+app.use((0, import_cors.default)({
+  origin: "*"
+}));
 app.use(import_express.default.static(import_path.default.resolve(__dirname, "../build")));
 app.get("/status", (req, res) => {
   res.status(200);
@@ -27238,7 +27520,9 @@ app.get("/status", (req, res) => {
 });
 app.get("/api/supervisors", async (req, res) => {
   const supervisors = await fetch("https://o3m5qixdng.execute-api.us-east-1.amazonaws.com/api/managers").then((res2) => res2.json());
-  res.json(supervisors.map((s2) => `${s2.jurisdiction}-${s2.lastName}-${s2.firstName}`).sort().filter((s2) => !s2.match(/[0-9]/)));
+  res.json(supervisors.map((s2) => ({
+    str: `${s2.jurisdiction}-${s2.lastName}-${s2.firstName}`
+  })).sort().filter((s2) => !s2.str.match(/[0-9]/)));
   res.end();
 });
 app.get("/api/submit", () => {
@@ -27246,6 +27530,11 @@ app.get("/api/submit", () => {
 app.listen(8080, () => {
   console.log("listending on 8080");
 });
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
 /*!
  * accepts
  * Copyright(c) 2014 Jonathan Ong

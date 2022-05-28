@@ -17,6 +17,7 @@
 		"@types/react": "^18.0.9",
 		"@types/react-dom": "^18.0.5",
 		"chalk": "^5.0.1",
+		"cors": "^2.8.5",
 		"esbuild": "^0.14.41",
 		"express": "^4.18.1",
 		"minimist": "^1.2.6",
@@ -53,5 +54,8 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"@types/cors": "^2.8.12"
 	}
 }

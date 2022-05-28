@@ -1,4 +1,5 @@
-import { setWatching, updateSupervisorNotif } from '../store';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { setSupervisors, setWatching, updateSupervisorNotif } from '../store';
 import { Info, SupervisorState } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,7 +10,6 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 
 	return (
 		<tr
-			key={supervisor.id}
 			style={{
 				borderBottom: '1px solid #ccc'
 			}}
@@ -19,7 +19,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 					width: '18rem'
 				}}
 			>
-				{supervisor.jurisdiction}, {supervisor.firstName} {supervisor.lastName}
+				{supervisor.str}
 			</td>
 
 			<td>
@@ -32,7 +32,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 						onChange={(e) =>
 							dispatch(
 								updateSupervisorNotif({
-									supervisorId: supervisor.id,
+									supervisorId: supervisor.str,
 									notifType: 'email',
 									value: e.target.checked
 								})
@@ -49,7 +49,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 						onChange={(e) => {
 							dispatch(
 								updateSupervisorNotif({
-									supervisorId: supervisor.id,
+									supervisorId: supervisor.str,
 									notifType: 'phone',
 									value: e.target.checked
 								})
@@ -68,7 +68,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 						visibility: supervisor.changed ? 'visible' : 'hidden'
 					}}
 					onClick={() => {
-						dispatch(setWatching(supervisor.id));
+						dispatch(setWatching(supervisor.str));
 					}}
 				>
 					save
