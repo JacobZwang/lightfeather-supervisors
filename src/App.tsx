@@ -75,6 +75,15 @@ function App() {
 							onChange={(e) => dispatch(setPhone(e.target.value))}
 						/>
 					</label>
+
+					<br />
+
+					<p>
+						The list of supervisors that you are watching is stored locally on your computer for
+						your convenience. Updating your information and notification options will not update
+						previous notification requests made under a different name. This may change in the
+						future, but for now, contact an admin if need to make a bulk request.
+					</p>
 				</div>
 			</div>
 

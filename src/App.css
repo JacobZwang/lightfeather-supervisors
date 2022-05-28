@@ -100,3 +100,9 @@ button:hover {
 	background-color: rgb(70, 156, 253);
 	cursor: pointer;
 }
+
+p {
+	line-height: 1.5;
+	font-size: 0.875rem;
+	/* text-align: justify; */
+}
