@@ -41,7 +41,7 @@ app.post('/api/submit', (req, res) => {
 	if (!req.body.lastName) res.status(401).write('Last name is required\n');
 	if (!req.body.supervisor) res.status(406).write('Supervisor is required\n');
 
-	if (res.statusCode === 200) console.log(console.log(req.body));
+	if (res.statusCode === 200) console.log(req.body);
 
 	res.end();
 });
