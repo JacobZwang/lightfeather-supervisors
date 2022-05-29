@@ -21,7 +21,7 @@ function App() {
 
 	function loadWatchList() {
 		fetch(
-			`http://localhost:8080/api/supervisors?firstName=${info.firstName}&lastName=${info.lastName}`
+			`${process.env.REACT_APP_ENDPOINT}/api/supervisors?firstName=${info.firstName}&lastName=${info.lastName}`
 		)
 			.then((res) => res.json())
 			.then((json) => {

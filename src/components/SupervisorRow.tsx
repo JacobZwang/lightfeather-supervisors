@@ -68,7 +68,7 @@ function SupervisorRow(props: { supervisor: SupervisorState }) {
 						visibility: supervisor.changed ? 'visible' : 'hidden'
 					}}
 					onClick={() => {
-						fetch('http://localhost:8080/api/submit', {
+						fetch(`${process.env.REACT_APP_ENDPOINT}/api/submit`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json'
