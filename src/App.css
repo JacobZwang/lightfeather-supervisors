@@ -45,12 +45,6 @@ label > input {
 	margin-top: 0.25rem;
 }
 
-/* Should be able to use `:has` by the end of 2022 */
-/*, label:has(> input[type='checkbox']) */
-/* label.checkbox  {
-	display: inline-flex;
-} */
-
 input[type='checkbox'] {
 	width: unset;
 	display: inline;
@@ -109,5 +103,4 @@ p {
 	line-height: 1.5;
 	font-size: 0.875rem;
 	max-width: 30rem;
-	/* text-align: justify; */
 }
