@@ -58,6 +58,11 @@ function App() {
 						/>
 					</label>
 
+					<p>
+						After entering your first and last name, reload your watch list to see any supervisors
+						you're already watching.
+					</p>
+
 					<h2>Notification Options</h2>
 
 					<label>
@@ -85,10 +90,8 @@ function App() {
 					<br />
 
 					<p>
-						Your supervisor watchlist is stored locally on your computer for your convenience.
-						Updating your information and notification options will not update previous notification
-						requests made under a different name. This may change in the future, but for now,
-						contact an admin if need to make a more advanced request.
+						Updating your notification options will not modify notifications you've already
+						subscribed to.
 					</p>
 				</div>
 			</div>
