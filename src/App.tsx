@@ -113,9 +113,10 @@ function App() {
 						</tbody>
 					</table>
 				) : (
-					<p style={{ maxWidth: '30rem' }}>
-						You aren't watching any supervisors yet. Enable email or phone notifications for a
-						supervisor below to watch them.
+					<p>
+						You aren't watching any supervisors yet or you haven't input your information correctly.
+						Edit your information to the left or enable notifications for a supervisor below to
+						watch them.
 					</p>
 				)}
 
