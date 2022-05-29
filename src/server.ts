@@ -8,6 +8,8 @@ import { Client } from 'pg';
 import updateNotifQuery from './sql/notif-update.sql';
 // @ts-ignore
 import deleteNotifQuery from './sql/notif-delete.sql';
+// @ts-ignore
+import getNotifQuery from './sql/notif-get.sql';
 
 const client = new Client();
 client.connect().then(() => {
@@ -31,11 +33,24 @@ client.connect().then(() => {
 			'https://o3m5qixdng.execute-api.us-east-1.amazonaws.com/api/managers'
 		).then((res) => res.json() as Promise<Supervisor[]>);
 
+		const notifs = await client
+			.query(getNotifQuery, [req.query.firstName, req.query.lastName])
+			.catch((err) => console.error(err));
+
 		res.json(
 			supervisors
-				.map((s) => ({
-					str: `${s.jurisdiction}-${s.lastName}-${s.firstName}`
-				})) // The format of the supervisors returned must be displayed in the following format:“<jurisdiction> - <lastName>, <firstName>”
+				.map((s) => {
+					const str = `${s.jurisdiction}-${s.lastName}-${s.firstName}`;
+					//@ts-ignore
+					const notif = notifs?.rows.find((n) => n.supervisor === str) ?? []; // TODO: this is slow, make it faster using sorting and array reduction
+					return {
+						str,
+						//@ts-ignore
+						emailNotifsEnabled: notif.phone ? true : false,
+						//@ts-ignore
+						phoneNotifsEnabled: notif.email ? true : false
+					};
+				}) // The format of the supervisors returned must be displayed in the following format:“<jurisdiction> - <lastName>, <firstName>”
 				.sort() // The supervisors must be sorted in alphabetical order, first by jurisdiction, then by last name, finally by first name.
 				.filter((s) => !s.str.match(/[0-9]/)) // Numeric jurisdictions should be removed from the response.
 		);
@@ -66,9 +81,6 @@ client.connect().then(() => {
 						req.body.lastName,
 						req.body.supervisor
 					])
-					.then((res) => {
-						console.log(res);
-					})
 					.catch((err) => {
 						console.error(err);
 					});

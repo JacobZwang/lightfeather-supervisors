@@ -13,15 +13,21 @@ function App() {
 	const didMount = useRef(false);
 
 	useEffect(() => {
-		fetch('http://localhost:8080/api/supervisors')
+		if (!didMount.current) {
+			didMount.current = true;
+			loadWatchList();
+		}
+	});
+
+	function loadWatchList() {
+		fetch(
+			`http://localhost:8080/api/supervisors?firstName=${info.firstName}&lastName=${info.lastName}`
+		)
 			.then((res) => res.json())
 			.then((json) => {
-				if (!didMount.current) {
-					didMount.current = true;
-					dispatch(setSupervisors(json));
-				}
+				dispatch(setSupervisors(json));
 			});
-	});
+	}
 
 	return (
 		<form onSubmit={(e) => e.preventDefault()}>
@@ -88,7 +94,10 @@ function App() {
 			</div>
 
 			<div>
-				<h2>Supervisors You're Watching</h2>
+				<div style={{ display: 'flex' }}>
+					<h2>Supervisors You're Watching</h2>{' '}
+					<button onClick={loadWatchList}>reload watch list ↺</button>
+				</div>
 
 				{supervisors.filter((s) => s.isWatching).length ? (
 					<table>
